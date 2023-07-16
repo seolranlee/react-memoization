@@ -1,43 +1,40 @@
-import { useMemo, useState } from 'react';
-
-const hardCaculate = (number: number) => {
-  console.log('어려운 계산!');
-  for (let i = 0; i < 999999999; i++) {} //생각하는 시간
-  return number + 10000;
-};
-
-const easyCaculate = (number: number) => {
-  console.log('짱 쉬운 계산!');
-  return number + 1;
-};
+import { useEffect, useMemo, useState } from 'react';
 
 function App() {
-  const [hardNumber, setHardNumber] = useState(1);
-  const [easyNumber, setEasyNumber] = useState(1);
+  const [number, setNumber] = useState(0);
+  const [isKorea, setIsKorea] = useState(true);
 
-  // const hardSum = hardCaculate(hardNumber);
-  const hardSum = useMemo(() => hardCaculate(hardNumber), [hardNumber]);
-  const easySum = useMemo(() => easyCaculate(easyNumber), [easyNumber]);
+  // 원시 type일 때는 문제 없음
+  // const location = isKorea ? '한국' : '외국';
+
+  // 객체 type일 경우
+  // const location = {
+  //   country: isKorea ? '한국' : '외국',
+  // };
+
+  const location = useMemo(() => {
+    return {
+      country: isKorea ? '한국' : '외국',
+    };
+  }, [isKorea]);
+
+  useEffect(() => {
+    console.log('useEffect 호출');
+    // 오래걸리는 작업..
+  }, [location]);
 
   return (
     <>
-      <h3>어려운 계산기</h3>
+      <h2>하루에 몇끼 먹어요?</h2>
       <input
         type="number"
-        value={hardNumber}
-        onChange={e => setHardNumber(parseInt(e.target.value))}
+        value={number}
+        onChange={e => setNumber(+e.target.value)}
       />
-      <span> + 10000 = {hardSum}</span>
-
       <hr />
-
-      <h3>쉬운 계산기</h3>
-      <input
-        type="number"
-        value={easyNumber}
-        onChange={e => setEasyNumber(parseInt(e.target.value))}
-      />
-      <span> + 1 = {easySum}</span>
+      <h2>어느 나라에서 왔어요?</h2>
+      <p>나라: {location.country}</p>
+      <button onClick={() => setIsKorea(!isKorea)}>비행기 타자</button>
     </>
   );
 }

@@ -22,14 +22,13 @@ const Todo: FC<Props> = ({ id }) => {
   //   [id],
   // );
 
-  const promise1 = () => {
+  const promise1 = useCallback(() => {
     return Promise.resolve({
       id,
     });
-  };
+  }, [id]);
 
   useEffect(() => {
-    console.log(obj);
     promise1().then(value => {
       setObj(value);
     });

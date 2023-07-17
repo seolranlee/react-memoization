@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { MemoizedBox } from './Box';
+// import Box from './Box';
 
 function App() {
   const [number, setNumber] = useState(0);
@@ -8,9 +10,9 @@ function App() {
     return console.log(`someFunc: number: ${number}`);
   }, [number]);
 
-  useEffect(() => {
-    console.log('someFunction이 변경되었습니다.');
-  }, [someFunction]);
+  // const someFunction = () => {
+  //   return console.log(`someFunc: number: ${number}`);
+  // };
 
   return (
     <>
@@ -19,9 +21,10 @@ function App() {
         value={number}
         onChange={e => setNumber(+e.target.value)}
       />
-      <button onClick={() => setToggle(!toggle)}>{toggle.toString()}</button>
-      <br />
-      <button onClick={someFunction}>Call somefunc</button>
+      <button onClick={() => setToggle(!toggle)}>
+        {toggle ? 'true' : 'false'}
+      </button>
+      <MemoizedBox someFunction={someFunction} />
     </>
   );
 }

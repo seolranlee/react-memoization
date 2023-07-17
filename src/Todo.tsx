@@ -11,23 +11,37 @@ interface Todo {
 }
 
 const Todo: FC<Props> = ({ id }) => {
-  const [data, setData] = useState<Todo | null>(null);
+  // const [data, setData] = useState<Todo | null>(null);
+  const [obj, setObj] = useState({});
 
-  const fetchData = useCallback(
-    () =>
-      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(response => response.json())
-        .then(data => data as Todo),
-    [id],
-  );
+  // const fetchData = useCallback(
+  //   () =>
+  //     fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+  //       .then(response => response.json())
+  //       .then(data => data as Todo),
+  //   [id],
+  // );
+
+  const promise1 = () => {
+    return Promise.resolve({
+      id,
+    });
+  };
 
   useEffect(() => {
-    fetchData().then(data => {
-      setData(data);
+    console.log(obj);
+    promise1().then(value => {
+      setObj(value);
     });
-  }, [fetchData]);
+  }, [promise1]);
 
-  return <>{JSON.stringify(data)}</>;
+  // useEffect(() => {
+  //   fetchData().then(data => {
+  //     setData(data);
+  //   });
+  // }, [fetchData]);
+
+  return <>{JSON.stringify(obj)}</>;
 };
 
 export default Todo;

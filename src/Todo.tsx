@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { useState, type FC, useEffect } from 'react';
+import { useState, type FC, useEffect, useCallback } from 'react';
 
 type Props = { id: number };
 
@@ -13,10 +13,13 @@ interface Todo {
 const Todo: FC<Props> = ({ id }) => {
   const [data, setData] = useState<Todo | null>(null);
 
-  const fetchData = () =>
-    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
-      .then(response => response.json())
-      .then(data => data as Todo);
+  const fetchData = useCallback(
+    () =>
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+        .then(response => response.json())
+        .then(data => data as Todo),
+    [id],
+  );
 
   useEffect(() => {
     fetchData().then(data => {
